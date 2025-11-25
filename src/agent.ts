@@ -30,10 +30,6 @@ const paymentsConfig = paymentsFromEnv({
     (DEFAULT_NETWORK as Network),
 });
 
-const configOverrides = {
-  payments: paymentsConfig,
-};
-
 const runtime = await createAgent({
   name: "ax-flow-agent",
   version: "0.0.1",
@@ -41,8 +37,8 @@ const runtime = await createAgent({
     "Demonstrates driving an AxFlow pipeline through createAxLLMClient.",
 })
   .use(http())
-  .use(payments())
-  .build(configOverrides);
+  .use(payments({ config: paymentsConfig }))
+  .build();
 
 const { app, addEntrypoint } = await createAgentApp(runtime);
 
